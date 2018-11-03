@@ -11,5 +11,6 @@
         <item>temple</item>
         <item>restaurant</item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

@@ -2,13 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cubex.mahesh.googleplaces_nov7am">
 
-    <uses-permission android:name=
-        "android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name=
-        "android.permission.ACCESS_FINE_LOCATION"/>
-
-    <uses-permission android:name=
-        "android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -27,8 +23,11 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyCqMtkybr9dNBm_-QwTV1fbKT0W6XBQNCc"/>
+            android:value="AIzaSyCqMtkybr9dNBm_-QwTV1fbKT0W6XBQNCc" />
 
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>

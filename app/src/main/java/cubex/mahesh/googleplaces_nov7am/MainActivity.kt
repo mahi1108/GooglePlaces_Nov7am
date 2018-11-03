@@ -16,6 +16,7 @@ import android.widget.BaseAdapter
 import android.widget.SeekBar
 import com.google.android.gms.location.places.ui.PlacePicker
 import cubex.mahesh.googleplaces_nov7am.beans.PlacesBean
+import cubex.mahesh.googleplaces_nov7am.beans.ResultsItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.indiview.view.*
 import retrofit2.Call
@@ -24,7 +25,11 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+var list:MutableList<ResultsItem>? = null
+
+
 class MainActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<PlacesBean>, response: Response<PlacesBean>) {
 
                     var bean = response.body()
-                   var list =  bean!!.results
+                            list = bean!!.results as MutableList<ResultsItem>?
                     lview.adapter = object:BaseAdapter(){
                         override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
                             var inflater = LayoutInflater.from(this@MainActivity)
@@ -76,6 +81,22 @@ class MainActivity : AppCompatActivity() {
                             v.pname.text = list!!.get(p0).name
                             v.paddress.text = list!!.get(p0).vicinity
                             v.pohours.text = list!!.get(p0).openingHours.openNow.toString()
+                            v.loc.setOnClickListener {
+                                        var i = Intent(this@MainActivity,
+                                                MapsActivity::class.java)
+                                        i.putExtra("cur_loc_lati",
+                                                tv_lati.text.toString().toDouble())
+                                        i.putExtra("cur_loc_long",
+                                                tv_longi.text.toString().toDouble())
+                                        i.putExtra("dest_loc_lati",
+                                                                                 list!!.get(p0).geometry.location.lat)
+                                        i.putExtra("dest_loc_long",
+                                                list!!.get(p0).geometry.location.lng)
+                                        i.putExtra("from_single",true)
+                                startActivity(i)
+
+
+                            }
                             return  v
                         }
 
@@ -94,7 +115,19 @@ class MainActivity : AppCompatActivity() {
 
                     }
 
-                }
+                    showAllonMap.setOnClickListener {
+                        var i = Intent(this@MainActivity,
+                                MapsActivity::class.java)
+                        i.putExtra("cur_loc_lati",
+                                tv_lati.text.toString().toDouble())
+                        i.putExtra("cur_loc_long",
+                                tv_longi.text.toString().toDouble())
+                        i.putExtra("from_single",false)
+                        startActivity(i)
+
+                    }
+
+                } // onResponse
 
                 override fun onFailure(call: Call<PlacesBean>, t: Throwable) {
 
